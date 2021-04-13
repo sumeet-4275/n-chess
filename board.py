@@ -23,23 +23,54 @@ def main():
     #print(gs.board)
     loadImages()
     running = True
+    sqSelected = ()
+    playerClicks = []
     while running:
         for e in p.event.get():
             if  e.type == p.QUIT:
                 running = False
+            elif e.type == p.MOUSEBUTTONDOWN:
+                location = p.mouse.get_pos()
+                col = location[0]//sq_size
+                row = location[1]//sq_size
+                if sqSelected == (row,col):
+                    sqSelected = ()
+                    playerClicks = []
+                else:
+                    sqSelected =(row,col)
+                    playerClicks.append(sqSelected)
+                if len(playerClicks) == 2:
+                    
+
+
+
+
         drawGameState(screen, gs)
         clock.tick(max_fps)
         p.display.flip()
 
-def drawBoard(screen):
-
-
-def drawPieces(screen, board):
-
-
 def drawGameState(screen, gs):
     drawBoard(screen)
     drawPieces(screen, gs.board)
+
+
+def drawBoard(screen):
+    colors = [p.Color("white"), p.Color("gray")]
+    for r in range(dimension):
+        for c in range(dimension):
+            color = colors[((r+c) % 2)]
+            p.draw.rect(screen,color,p.Rect(c*sq_size, r*sq_size,sq_size,sq_size)
+            
+
+
+def drawPieces(screen, board):
+    for r in range(dimension):
+        for c in range(dimension):
+            piece = board[r][c]
+            if piece != "--":
+                screen.blit(IMAGES[piece],p.Rect(c*sq_size, r*sq_size,sq_size,sq_size))
+
+
 
 
 if __name__ == "__main__":
